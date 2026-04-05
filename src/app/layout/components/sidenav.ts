@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
-import { LucideAngularModule, LayoutDashboard, Users, LogOut, LucideIconData, Toolbox, UserKey, FileText } from 'lucide-angular';
+import { LucideAngularModule, LayoutDashboard, Users, LogOut, LucideIconData, Toolbox, UserKey, FileText, List } from 'lucide-angular';
 
 interface MenuItem {
     title: string;
@@ -50,10 +50,12 @@ export class Sidenav {
     readonly ServicesIcon = Toolbox;
     readonly ProvidersIcon = UserKey;
     readonly ReportsIcon = FileText;
+    readonly CategoriesIcon = List; // Icono personalizado para categorías
 
     // Solo añades una línea aquí y el menú crece solo
     menuItems: MenuItem[] = [
         { title: 'Dashboard', icon: this.DashboardIcon, route: '/admin/dashboard' },
+        { title: 'Categorias', icon: this.CategoriesIcon, route: '/admin/categories' },
         { title: 'Usuarios', icon: this.UsersIcon, route: '/admin/users' },
         { title: 'Proveedores', icon: this.ProvidersIcon, route: '/admin/providers' },
         { title: 'Servicios', icon: this.ServicesIcon, route: '/admin/services' },

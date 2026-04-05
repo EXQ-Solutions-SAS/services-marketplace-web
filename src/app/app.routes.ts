@@ -15,10 +15,15 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./features/dashboard/summary/summary').then(m => m.Summary)
       },
+      {
+        path: 'categories',
+        loadComponent: () => import('./features/categories/category-list').then(m => m.CategoryList)
+      },
       /* {
         path: 'users',
         loadComponent: () => import('./features/dashboard/users/users').then(m => m.Users)
-      }, */
+      },
+       */
       {
         path: '',
         redirectTo: 'dashboard',
