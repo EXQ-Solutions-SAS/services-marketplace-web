@@ -1,9 +1,4 @@
-export enum Role {
-  CLIENT = 'CLIENT',
-  PROVIDER = 'PROVIDER',
-  ADMIN = 'ADMIN',
-}
-
+import { Role } from './enums';
 export interface User {
   id: string;
   firebaseId: string;

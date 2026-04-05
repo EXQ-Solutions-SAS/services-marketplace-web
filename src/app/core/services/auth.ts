@@ -3,7 +3,8 @@ import { Auth, signInWithEmailAndPassword, signOut, user } from '@angular/fire/a
 import { Router } from '@angular/router';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import { ApiService } from './api';
-import { Role, User } from '../models/user';
+import {  User } from '../models/user';
+import { Role } from '../models/enums';
 
 @Injectable({
   providedIn: 'root',
