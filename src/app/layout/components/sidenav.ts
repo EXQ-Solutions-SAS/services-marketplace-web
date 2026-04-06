@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
-import { LucideAngularModule, LayoutDashboard, Users, LogOut, LucideIconData, Toolbox, UserKey, FileText, List } from 'lucide-angular';
+import { LucideAngularModule, LayoutDashboard, Users, LogOut, LucideIconData, Toolbox, UserKey, FileText, List, BookPlus, UserStar, BadgeDollarSign } from 'lucide-angular';
 
 interface MenuItem {
   title: string;
@@ -49,15 +49,19 @@ export class Sidenav {
   readonly LogoutIcon = LogOut;
   readonly ServicesIcon = Toolbox;
   readonly ReportsIcon = FileText;
-  readonly CategoriesIcon = List; // Icono personalizado para categorías
+  readonly CategoriesIcon = List; 
+  readonly ReviewsIcon = UserStar;
+  readonly BookingsIcon = BookPlus;
+  readonly TransactionsIcon = BadgeDollarSign;
 
   // Solo añades una línea aquí y el menú crece solo
   menuItems: MenuItem[] = [
     { title: 'Dashboard', icon: this.DashboardIcon, route: '/admin/dashboard' },
     { title: 'Categorias', icon: this.CategoriesIcon, route: '/admin/categories' },
     { title: 'Servicios', icon: this.ServicesIcon, route: '/admin/services' },
-    { title: 'Reservas', icon: this.ServicesIcon, route: '/admin/bookings' },
-    { title: 'Reseñas', icon: this.ServicesIcon, route: '/admin/reviews' },
+    { title: 'Reservas', icon: this.BookingsIcon, route: '/admin/bookings' },
+    { title: 'Reseñas', icon: this.ReviewsIcon, route: '/admin/reviews' },
+    { title: 'Transacciones', icon: this.TransactionsIcon, route: '/admin/transactions' },
     { title: 'Usuarios', icon: this.UsersIcon, route: '/admin/users' },
     { title: 'Reportes', icon: this.ReportsIcon, route: '/admin/reports' },
   ];

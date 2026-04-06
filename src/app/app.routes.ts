@@ -36,6 +36,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/reviews/review-list').then(m => m.ReviewList)
       },
       {
+        path: 'transactions',
+        loadComponent: () => import('./features/transactions/transaction-list').then(m => m.TransactionList)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
