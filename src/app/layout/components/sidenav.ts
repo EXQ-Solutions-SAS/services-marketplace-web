@@ -48,7 +48,6 @@ export class Sidenav {
   readonly UsersIcon = Users;
   readonly LogoutIcon = LogOut;
   readonly ServicesIcon = Toolbox;
-  readonly ReportsIcon = FileText;
   readonly CategoriesIcon = List; 
   readonly ReviewsIcon = UserStar;
   readonly BookingsIcon = BookPlus;
@@ -63,6 +62,5 @@ export class Sidenav {
     { title: 'Reseñas', icon: this.ReviewsIcon, route: '/admin/reviews' },
     { title: 'Transacciones', icon: this.TransactionsIcon, route: '/admin/transactions' },
     { title: 'Usuarios', icon: this.UsersIcon, route: '/admin/users' },
-    { title: 'Reportes', icon: this.ReportsIcon, route: '/admin/reports' },
   ];
 }
