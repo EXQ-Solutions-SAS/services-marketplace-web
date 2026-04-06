@@ -97,3 +97,16 @@ export interface Review {
   reviewee?: User;
   createdAt: string;
 }
+
+export interface DashboardStats {
+  cards: {
+    revenue: number;
+    revenueGrowth: number;
+    users: number;
+    bookings: number;
+    pendingRate: number;
+  };
+  charts: {
+    categories: { name: string; value: number }[];
+  };
+}
