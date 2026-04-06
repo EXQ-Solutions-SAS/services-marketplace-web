@@ -1,0 +1,122 @@
+<app-data-table
+  title="Usuarios"
+  subtitle="Gestión de cuentas y accesos"
+  [columns]="userColumns"
+  [data]="users()"
+  [cellTemplate]="userCell"
+  [actionsTemplate]="userActions">
+</app-data-table>
+
+<ng-template #userCell let-user let-key="key">
+  @switch (key) {
+    @case ('user') {
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-primary-orange/10 flex items-center justify-center text-primary-orange font-black text-xs">
+          {{ user.name?.slice(0,2) || 'US' }}
+        </div>
+        <div class="flex flex-col">
+          <span class="text-sm font-bold text-white">{{ user.name || 'Sin nombre' }}</span>
+          <span class="text-[11px] text-slate-500 font-mono">{{ user.email }}</span>
+        </div>
+      </div>
+    }
+    @case ('role') {
+        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-slate-400">
+            {{ user.role }}
+        </span>
+    }
+    @default {
+      <span class="text-sm text-slate-400 font-mono">{{ user[key] }}</span>
+    }
+  }
+</ng-template>
+
+<ng-template #userActions let-user>
+    <button (click)="openDetails(user)" 
+            class="p-2 hover:bg-white/5 rounded-xl text-slate-500 hover:text-primary-orange transition-all group">
+        <lucide-icon [img]="EyeIcon" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+    </button>
+</ng-template>
+
+<div *ngIf="showDetails()" 
+     (click)="showDetails.set(false)"
+     class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[150] animate-in fade-in duration-300">
+</div>
+
+<div [class.translate-x-0]="showDetails()" 
+     [class.translate-x-full]="!showDetails()"
+     class="fixed right-0 top-0 h-full w-full max-w-md bg-[#0a0e17] border-l border-white/10 z-[160] transition-transform duration-500 ease-out p-8 shadow-2xl overflow-y-auto">
+  
+  <div class="flex justify-between items-center mb-10">
+    <h3 class="text-xl font-black text-white uppercase tracking-tighter italic">Perfil de usuario</h3>
+    <button (click)="showDetails.set(false)" class="p-2 hover:bg-white/5 rounded-full text-slate-500 hover:text-white transition-colors">
+      <lucide-icon [img]="XIcon" class="w-6 h-6"></lucide-icon>
+    </button>
+  </div>
+
+  @if (selectedUser(); as user) {
+    <div class="space-y-8">
+      <div class="flex flex-col items-center gap-4 py-8 bg-white/[0.02] rounded-[3rem] border border-white/5">
+        <div class="w-24 h-24 rounded-[2.5rem] bg-gradient-to-br from-primary-orange to-orange-600 flex items-center justify-center text-white text-3xl font-black shadow-lg shadow-primary-orange/20">
+          {{ user.name?.slice(0,1) || 'U' }}
+        </div>
+        <div class="text-center">
+          <p class="text-white text-2xl font-black tracking-tight">{{ user.name }}</p>
+          <p class="text-primary-orange font-mono text-xs uppercase tracking-[0.2em] mt-1">{{ user.role }}</p>
+        </div>
+      </div>
+
+      <div class="grid gap-4">
+        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-4">
+            <lucide-icon [img]="MailIcon" class="w-5 h-5 text-slate-500"></lucide-icon>
+            <div>
+                <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Email Address</p>
+                <p class="text-white text-sm font-medium">{{ user.email }}</p>
+            </div>
+        </div>
+
+        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-4">
+            <lucide-icon [img]="PhoneIcon" class="w-5 h-5 text-slate-500"></lucide-icon>
+            <div>
+                <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Phone Number</p>
+                <p class="text-white text-sm font-medium">{{ user.phone || 'No registrado' }}</p>
+            </div>
+        </div>
+
+        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-4">
+            <lucide-icon [img]="IDIcon" class="w-5 h-5 text-slate-500"></lucide-icon>
+            <div>
+                <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Firebase UID</p>
+                <p class="text-slate-400 text-[10px] font-mono break-all">{{ user.firebaseId }}</p>
+            </div>
+        </div>
+
+        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-4">
+            <lucide-icon [img]="CalendarIcon" class="w-5 h-5 text-slate-500"></lucide-icon>
+            <div>
+                <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Member Since</p>
+                <p class="text-white text-sm font-medium">{{ user.createdAt | date:'mediumDate' }}</p>
+            </div>
+        </div>
+      </div>
+
+      <div class="p-6 bg-primary-orange/5 rounded-[2rem] border border-primary-orange/10">
+        <p class="text-[9px] text-primary-orange uppercase font-black tracking-widest mb-2">Biography</p>
+        <p class="text-slate-300 text-sm italic leading-relaxed">
+            {{ user.bio || 'El usuario no ha proporcionado una biografía todavía.' }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 bg-white/[0.02] rounded-2xl border border-white/5 text-center">
+            <p class="text-xl font-black text-white">{{ user.bookings?.length || 0 }}</p>
+            <p class="text-[8px] text-slate-500 uppercase font-bold tracking-widest">Bookings</p>
+        </div>
+        <div class="p-4 bg-white/[0.02] rounded-2xl border border-white/5 text-center">
+            <p class="text-xl font-black text-white">{{ (user.reviewsReceived?.length || 0) }}</p>
+            <p class="text-[8px] text-slate-500 uppercase font-bold tracking-widest">Reviews</p>
+        </div>
+      </div>
+    </div>
+  }
+</div>
