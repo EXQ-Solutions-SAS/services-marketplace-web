@@ -38,7 +38,7 @@ export interface Provider {
   services?: Service[];
   bookings?: Booking[];
   // location se maneja como string o objeto según cómo lo envíe Nest (GeoJSON)
-  location?: any; 
+  location?: any;
 }
 
 export interface Service {
@@ -52,6 +52,9 @@ export interface Service {
   provider?: Provider;
   bookings?: Booking[];
   createdAt: string;
+  _count?: {
+    bookings: number;
+  };
 }
 
 export interface Booking {

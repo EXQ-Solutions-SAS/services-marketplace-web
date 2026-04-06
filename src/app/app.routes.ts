@@ -20,10 +20,13 @@ export const routes: Routes = [
         loadComponent: () => import('./features/categories/category-list').then(m => m.CategoryList)
       },
       {
+        path: 'services',
+        loadComponent: () => import('./features/services/service-list').then(m => m.ServiceList)
+      },
+      {
         path: 'users',
         loadComponent: () => import('./features/users/user-list').then(m => m.UserList)
       },
-
       {
         path: '',
         redirectTo: 'dashboard',

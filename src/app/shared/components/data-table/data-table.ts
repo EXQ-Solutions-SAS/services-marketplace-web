@@ -78,7 +78,7 @@ export interface TableColumn {
         </div>
 
         <div class="p-6 border-t border-white/5 bg-white/[0.01] flex justify-between items-center">
-            <span class="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Mostrando {{ _internalData().length }} resultados</span>
+            <span class="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Mostrando {{ filteredData().length }} resultados</span>
             <div class="flex gap-2">
                 <button class="p-2 px-4 rounded-xl border border-white/5 text-slate-500 hover:text-white transition-all text-xs font-bold">Prev</button>
                 <button class="p-2 px-4 rounded-xl bg-white/5 text-white hover:bg-primary-orange transition-all text-xs font-bold">Next</button>
