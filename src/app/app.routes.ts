@@ -28,6 +28,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/users/user-list').then(m => m.UserList)
       },
       {
+        path: 'bookings',
+        loadComponent: () => import('./features/bookings/booking-list').then(m => m.BookingList)
+      },
+      {
+        path: 'reviews',
+        loadComponent: () => import('./features/reviews/review-list').then(m => m.ReviewList)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
