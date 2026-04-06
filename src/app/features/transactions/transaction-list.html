@@ -1,0 +1,114 @@
+<app-data-table title="Transacciones" subtitle="Registro histórico de pagos y liquidaciones" [columns]="transactionColumns"
+    [data]="transactions()" [cellTemplate]="txCell" [actionsTemplate]="txActions">
+</app-data-table>
+
+<ng-template #txCell let-tx let-key="key">
+    @switch (key) {
+        @case ('reference') {
+            <div class="flex flex-col">
+                <span class="text-xs font-mono font-bold text-white">{{ tx.externalReference || 'N/A' }}</span>
+                <span class="text-[9px] text-slate-500 uppercase tracking-tighter italic">ID: {{ tx.id.split('-')[0] }}</span>
+            </div>
+        }
+        @case ('amount') {
+            <span class="text-sm font-mono font-bold text-emerald-400">
+                {{ tx.amount | currency:'USD':'symbol':'1.0-0' }}
+            </span>
+        }
+        @case ('method') {
+            <div class="flex items-center gap-2">
+                <lucide-icon [img]="CardIcon" class="w-3 h-3 text-slate-400"></lucide-icon>
+                <span class="text-xs text-slate-300 font-medium uppercase">{{ tx.paymentMethod }}</span>
+            </div>
+        }
+        @case ('status') {
+            <span [class]="getStatusStyles(tx.status)">{{ tx.status }}</span>
+        }
+        @default {
+            <span class="text-xs text-slate-500 font-mono">{{ tx[key] }}</span>
+        }
+    }
+</ng-template>
+
+<ng-template #txActions let-tx>
+    <button (click)="openDetails(tx)"
+        class="p-2 hover:bg-white/5 rounded-xl text-slate-500 hover:text-primary-orange transition-all group">
+        <lucide-icon [img]="EyeIcon" class="w-5 h-5 group-hover:scale-110 transition-transform"></lucide-icon>
+    </button>
+</ng-template>
+
+@if(showDetails()){
+    <div (click)="showDetails.set(false)"
+        class="fixed inset-0 bg-black/70 backdrop-blur-md z-[150] animate-in fade-in duration-300"></div>
+}
+
+<div [class.translate-x-0]="showDetails()" [class.translate-x-full]="!showDetails()"
+    class="fixed right-0 top-0 h-full w-full max-w-md bg-[#0a0e17] border-l border-white/10 z-[160] transition-transform duration-500 ease-in-out p-8 shadow-2xl overflow-y-auto">
+
+    <div class="flex justify-between items-center mb-10">
+        <h3 class="text-xl font-black text-white uppercase tracking-tighter italic">Voucher de Pago</h3>
+        <button (click)="showDetails.set(false)"
+            class="p-2 hover:bg-white/5 rounded-full text-slate-500 hover:text-white transition-colors">
+            <lucide-icon [img]="XIcon" class="w-6 h-6"></lucide-icon>
+        </button>
+    </div>
+
+    @if (selectedTransaction(); as tx) {
+    <div class="space-y-6">
+        <div class="p-8 bg-gradient-to-br from-white/[0.04] to-transparent rounded-[3rem] border border-white/10 relative overflow-hidden text-center">
+            <div [class]="'absolute -top-10 -right-10 w-32 h-32 blur-[50px] rounded-full ' + 
+                (tx.status === 'COMPLETED' ? 'bg-emerald-500/20' : 'bg-primary-orange/20')"></div>
+            
+            <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-2 relative z-10">Monto Transaccionado</p>
+            <h4 class="text-4xl font-black text-white tracking-tighter mb-4 relative z-10">{{ tx.amount | currency }}</h4>
+            <span [class]="getStatusStyles(tx.status) + ' relative z-10'">{{ tx.status }}</span>
+        </div>
+
+        <div class="space-y-2">
+            <p class="text-[10px] text-slate-600 uppercase font-black tracking-[0.2em] px-2">Identificadores</p>
+            <div class="bg-white/[0.01] p-6 rounded-[2rem] border border-white/5 space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase">Referencia Externa</span>
+                    <span class="text-xs font-mono text-white">{{ tx.externalReference || 'N/A' }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase">Booking ID</span>
+                    <span class="text-[10px] font-mono text-slate-400">{{ tx.bookingId }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-3">
+            <div class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
+                    <lucide-icon [img]="CardIcon" class="w-5 h-5"></lucide-icon>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Método de Pago</p>
+                    <p class="text-white text-sm font-bold uppercase">{{ tx.paymentMethod }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
+                <div class="w-10 h-10 rounded-xl bg-slate-500/10 flex items-center justify-center text-slate-400">
+                    <lucide-icon [img]="CalendarIcon" class="w-5 h-5"></lucide-icon>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Fecha de Proceso</p>
+                    <p class="text-white text-sm font-bold">{{ tx.createdAt | date:'longDate' }}</p>
+                </div>
+            </div>
+        </div>
+
+        @if(tx.booking) {
+            <div class="p-6 bg-white/[0.02] border border-dashed border-white/10 rounded-[2rem]">
+                <p class="text-[9px] text-slate-600 uppercase font-black tracking-widest mb-3">Resumen de Servicio</p>
+                <div class="flex justify-between italic">
+                    <span class="text-xs text-slate-400">Horas contratadas:</span>
+                    <span class="text-xs text-white font-bold">{{ tx.booking.hours }}h</span>
+                </div>
+            </div>
+        }
+    </div>
+    }
+</div>

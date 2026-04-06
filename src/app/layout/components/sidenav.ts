@@ -1,19 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
-import { LucideAngularModule, LayoutDashboard, Users, LogOut, LucideIconData, Toolbox, UserKey, FileText } from 'lucide-angular';
+import { LucideAngularModule, LayoutDashboard, Users, LogOut, LucideIconData, Toolbox, UserKey, FileText, List, BookPlus, UserStar, BadgeDollarSign } from 'lucide-angular';
 
 interface MenuItem {
-    title: string;
-    icon: LucideIconData;
-    route: string;
+  title: string;
+  icon: LucideIconData;
+  route: string;
 }
 
 @Component({
-    selector: 'app-sidenav',
-    standalone: true,
-    imports: [RouterLink, RouterLinkActive, LucideAngularModule],
-    template: `
+  selector: 'app-sidenav',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, LucideAngularModule],
+  template: `
     <aside class="w-64 h-screen bg-[#0a0e17] border-r border-white/5 flex flex-col">
       <div class="p-6">
         <h1 class="text-primary-orange font-bold text-xl tracking-tight italic">
@@ -42,21 +42,27 @@ interface MenuItem {
   `
 })
 export class Sidenav {
-    auth = inject(AuthService);
+  auth = inject(AuthService);
 
-    readonly DashboardIcon = LayoutDashboard;
-    readonly UsersIcon = Users;
-    readonly LogoutIcon = LogOut;
-    readonly ServicesIcon = Toolbox;
-    readonly ProvidersIcon = UserKey;
-    readonly ReportsIcon = FileText;
+  readonly DashboardIcon = LayoutDashboard;
+  readonly UsersIcon = Users;
+  readonly LogoutIcon = LogOut;
+  readonly ServicesIcon = Toolbox;
+  readonly ReportsIcon = FileText;
+  readonly CategoriesIcon = List; 
+  readonly ReviewsIcon = UserStar;
+  readonly BookingsIcon = BookPlus;
+  readonly TransactionsIcon = BadgeDollarSign;
 
-    // Solo añades una línea aquí y el menú crece solo
-    menuItems: MenuItem[] = [
-        { title: 'Dashboard', icon: this.DashboardIcon, route: '/admin/dashboard' },
-        { title: 'Usuarios', icon: this.UsersIcon, route: '/admin/users' },
-        { title: 'Proveedores', icon: this.ProvidersIcon, route: '/admin/providers' },
-        { title: 'Servicios', icon: this.ServicesIcon, route: '/admin/services' },
-        { title: 'Reportes', icon: this.ReportsIcon, route: '/admin/reports' },
-    ];
+  // Solo añades una línea aquí y el menú crece solo
+  menuItems: MenuItem[] = [
+    { title: 'Dashboard', icon: this.DashboardIcon, route: '/admin/dashboard' },
+    { title: 'Categorias', icon: this.CategoriesIcon, route: '/admin/categories' },
+    { title: 'Servicios', icon: this.ServicesIcon, route: '/admin/services' },
+    { title: 'Reservas', icon: this.BookingsIcon, route: '/admin/bookings' },
+    { title: 'Reseñas', icon: this.ReviewsIcon, route: '/admin/reviews' },
+    { title: 'Transacciones', icon: this.TransactionsIcon, route: '/admin/transactions' },
+    { title: 'Usuarios', icon: this.UsersIcon, route: '/admin/users' },
+    { title: 'Reportes', icon: this.ReportsIcon, route: '/admin/reports' },
+  ];
 }
